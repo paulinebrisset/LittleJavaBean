@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +17,35 @@ public class Main {
         // testTruckUpdate();
         // testBeanInfo();
         // testSerialization();
+        testMultipleSerialization();
+    }
+
+    public static void testMultipleSerialization() {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        Car vehicle1 = new Car();
+        Vehicle vehicle2 = new Vehicle();
+        Truck vehicle3 = new Truck();
+
+        vehicle1.setBrand("Renault");
+        vehicle1.setModel("Symbol");
+        vehicle1.setColor("Blue");
+
+        vehicle2.setBrand("Citroën");
+        vehicle2.setModel("C3");
+        vehicle2.setColor("Red");
+
+        vehicle3.setBrand("Iveco");
+        vehicle3.setModel("Master");
+        vehicle3.setColor("Yellow");
+
+        vehicleList.add(vehicle1);
+        vehicleList.add(vehicle2);
+        vehicleList.add(vehicle3);
+
+        // Serialize the collection of vehicles to a file
+        for (Vehicle vehicle : vehicleList) {
+            serialiazeAndUnpack(vehicle);
+        }
     }
 
     public static void testSerialization() {
@@ -23,6 +54,10 @@ public class Main {
         vehicle.setBrand("Renault");
         vehicle.setModel("Clio");
         vehicle.setColor("Red");
+        serialiazeAndUnpack(vehicle);
+    }
+
+    public static void serialiazeAndUnpack(Vehicle vehicle) {
         // Serialize the Vehicle object to a file
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("vehicle.ser"))) {
             outputStream.writeObject(vehicle);
@@ -66,9 +101,7 @@ public class Main {
                     System.out.println();
                 }
             }
-        } catch (
-
-        IntrospectionException e) {
+        } catch (IntrospectionException e) {
             e.printStackTrace();
         }
     }
