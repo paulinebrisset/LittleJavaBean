@@ -30,12 +30,12 @@ public class Truck extends Vehicle {
         return vehicleDescription + "\nLoad Capacity: " + loadCapacity + " tons";
     }
 
-    // Add property change listeners
+    // // Add property change listeners
     public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
 
-    // Remove property change listeners
+    // // Remove property change listeners
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }

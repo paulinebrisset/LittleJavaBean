@@ -12,11 +12,15 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
-        // testUpdate();
-        // testTruckUpdate();
-        // testBeanInfo();
-        // testSerialization();
+        // Test listeners
+        testUpdate();
+        // Test specificities of trucks
+        testTruckUpdate();
+        // Test BeanInfo : explore informations
+        testBeanInfo();
+        // Test serialize and deserialize a single vehicle
+        testSerialization();
+        // Test serialize and desesialize a list of vehicles
         testMultipleSerialization();
     }
 
@@ -58,21 +62,19 @@ public class Main {
     }
 
     public static void serialiazeAndUnpack(Vehicle vehicle) {
-        // Serialize the Vehicle object to a file
+        // Serialize the Vehicle in vehicle.serialized
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("vehicle.ser"))) {
             outputStream.writeObject(vehicle);
-            System.out.println("Vehicle serialized successfully.");
+            System.out.println("Vehicle serialized");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Deserialize the Vehicle object from the file
+        // Deserialize the Vehicle from the vehicle.serialized
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("vehicle.ser"))) {
             Vehicle deserializedVehicle = (Vehicle) inputStream.readObject();
-            System.out.println("Vehicle deserialized successfully.");
-
-            // You can now work with the deserialized Vehicle object
-            System.out.println("Deserialized Vehicle Description:");
+            System.out.println("Vehicle deserialized.");
+            System.out.println("Deserialized Vehicle:");
             System.out.println(deserializedVehicle.getDescription());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -107,16 +109,16 @@ public class Main {
     }
 
     public static void testUpdate() {
-        // Create a generic Truck instance
+        // Create Vehicle instance with no parameters
         Vehicle vehicle1 = new Vehicle();
         System.out.println("Truck 1 Description:");
-        System.out.println(vehicle1.getDescription()); // Displays default values
+        System.out.println(vehicle1.getDescription()); // Normally empty
 
         // Set properties for the truck
         vehicle1.setBrand("Renault");
         vehicle1.setModel("Clio");
         vehicle1.setColor("Red");
-        System.out.println("\nTruck 1 Description (Customized):");
+        System.out.println("\nTruck 1 Description (with values):");
         System.out.println(vehicle1.getDescription()); // Displays customized values for the truck
 
         // Add property change listeners to monitor property changes
@@ -127,23 +129,22 @@ public class Main {
 
         // Change a property to trigger a property change event
         vehicle1.setColor("Blue");
-        vehicle1.setColor("Green");
     }
 
-    // Capo ouvert !!
+    // Heritage test
     public static void testTruckUpdate() {
-        // Create a generic Truck instance
+        // Create Trick with no parameters in the custructor
         Truck truck1 = new Truck();
         System.out.println("Truck 1 Description:");
-        System.out.println(truck1.getDescription()); // Displays default values
+        System.out.println(truck1.getDescription()); // Displays default values (empty)
 
-        // Set properties for the truck
+        // Set properties
         truck1.setBrand("Iveco");
         truck1.setModel("Master");
         truck1.setColor("Red");
-        truck1.setLoadCapacity(20.5); // Set the load capacity
-        System.out.println("\nTruck 1 Description (Customized):");
-        System.out.println(truck1.getDescription()); // Displays customized values for the truck
+        truck1.setLoadCapacity(20.5);
+        System.out.println("\nTruck description with values:");
+        System.out.println(truck1.getDescription());
 
         // Add property change listeners to monitor property changes
         truck1.addPropertyChangeListener(evt -> {
@@ -151,8 +152,8 @@ public class Main {
             System.out.println("New value: " + evt.getNewValue());
         });
 
-        // Change a property to trigger a property change event
-        truck1.setColor("Blue");
+        // Change a property to trigger propertychange
         truck1.setColor("Green");
+        truck1.setLoadCapacity(55);
     }
 }

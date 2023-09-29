@@ -6,7 +6,7 @@ public class SerializationVehicle {
         // Create a Vehicle instance
         Vehicle vehicle = new Vehicle();
 
-        // Serialize the Vehicle object to a file
+        // Serialize the Vehicle object to file vehicle.ser
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("vehicle.ser"))) {
             outputStream.writeObject(vehicle);
             System.out.println("Vehicle serialized successfully.");
